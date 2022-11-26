@@ -22,7 +22,7 @@ function OrderDetailsScreen() {
   const { id: orderId } = useParams();
 
   const orderDetails = useSelector((state) => state.orderDetails);
-  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = useSelector((state) => state.userLogin);
   const { order, loading, error } = orderDetails;
 
   useEffect(() => {
@@ -35,18 +35,18 @@ function OrderDetailsScreen() {
   const showModalHandler = () => setShow(true);
 
   const paymentHandler = async () => {
-    await ordersApi.orderSentpayment(orderId, userLogin.userInfo.token);
+    await ordersApi.orderSentpayment(orderId, userInfo.token);
     dispatch(getOrderDetails(orderId));
     setShow(false);
   };
 
   const markReceivePaymentHandler = async () => {
-    await ordersApi.orderPaid(orderId, userLogin.userInfo.token);
+    await ordersApi.orderPaid(orderId, userInfo.token);
     dispatch(getOrderDetails(orderId));
   };
 
   const markDeliveredHandler = async () => {
-    await ordersApi.orderDelivered(orderId, userLogin.userInfo.token);
+    await ordersApi.orderDelivered(orderId, userInfo.token);
     dispatch(getOrderDetails(orderId));
   };
 
@@ -63,7 +63,7 @@ function OrderDetailsScreen() {
             <ListGroup.Item>
               <h2>Thông tin nhận hàng</h2>
               <p>
-                <strong>Tên: </strong>{" "}
+                <strong>Tên: </strong>
                 {(order.user && order.user.name) || "Khách lạ"}
               </p>
               <p>
@@ -170,7 +170,7 @@ function OrderDetailsScreen() {
               </Button>
             </ListGroup>
           </Card>
-          {userLogin.userInfo.isAdmin && (
+          {userInfo.isAdmin && (
             <Card>
               <ListGroup variant="flush">
                 <ListGroup.Item>

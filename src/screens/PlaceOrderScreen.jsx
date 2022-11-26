@@ -9,6 +9,11 @@ import { createOrder, resetCreatedOrder } from "../actions/orderActions";
 import { resetCart } from "../actions/cartActions";
 import Price from "../components/Price";
 
+const PAYMENT_METHOD = {
+  cod: "Thanh toán khi nhận hàng",
+  bankTransfer: "Chuyển khoản",
+};
+
 function PlaceOrderScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,8 +37,7 @@ function PlaceOrderScreen() {
     if (success) {
       navigate(`/order/${order._id}`);
     }
-    // eslint-disable-next-line
-  }, [navigate, success]);
+  }, [success]);
 
   const placeOrderHandler = async () => {
     await dispatch(
@@ -48,11 +52,6 @@ function PlaceOrderScreen() {
     );
     dispatch(resetCart());
     dispatch(resetCreatedOrder());
-  };
-
-  const PAYMENT_METHOD = {
-    cod: "Thanh toán khi nhận hàng",
-    bankTransfer: "Chuyển khoản",
   };
 
   return (
@@ -154,7 +153,9 @@ function PlaceOrderScreen() {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-                {error && <Message variant="danger">{error}</Message>}
+                {error && (
+                  <Message variant="danger">{error.data?.message}</Message>
+                )}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

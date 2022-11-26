@@ -34,9 +34,7 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
-
     const data = await usersApi.login(email, password);
-
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
@@ -87,7 +85,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-
     const data = await usersApi.getProfile(id, userInfo.token);
     dispatch({
       type: USER_DETAILS_SUCCESS,

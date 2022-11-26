@@ -26,12 +26,11 @@ function ProductEditScreen() {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userLogin);
-  const productDetails = useSelector((state) => state.productDetails);
-  const { product } = productDetails;
+  const { product } = useSelector((state) => state.productDetails);
 
-  const productUpdate = useSelector((state) => state.productUpdate);
-  const { loading, error, success } = productUpdate;
-
+  const { loading, error, success } = useSelector(
+    (state) => state.productUpdate
+  );
   useEffect(() => {
     setName(product.name);
     setImage(product.image);
@@ -42,7 +41,7 @@ function ProductEditScreen() {
     setCountInStock(product.countInStock);
   }, [product]);
 
-  const errorMessage = error && error.response.data.message;
+  const errorMessage = error.response?.data?.message;
 
   useEffect(() => {
     dispatch(listProductDetails(id));
@@ -81,7 +80,6 @@ function ProductEditScreen() {
       })
     );
   };
-
   return (
     <>
       <Link className="btn btn-light my-3" to="/admin/products">

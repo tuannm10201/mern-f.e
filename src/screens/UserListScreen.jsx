@@ -10,11 +10,9 @@ import { listUsers, deleteUser, logout } from "../actions/userActions";
 function UserListScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userList = useSelector((state) => state.userList);
-  const { loading, error, users } = userList;
+  const { loading, error, users } = useSelector((state) => state.userList);
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success: deleteSuccess } = useSelector((state) => state.userDelete);
-
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers());
@@ -76,7 +74,7 @@ function UserListScreen() {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">{error?.message}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>

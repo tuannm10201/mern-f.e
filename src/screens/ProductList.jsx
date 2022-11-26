@@ -11,11 +11,12 @@ import SearchBox from "../components/SearchBox";
 import { listProducts, deleteProductById } from "../actions/productActions";
 
 function ProductList() {
-  const params = useParams();
+  const { keyword, pageNumber } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products, pages, page } = productList;
+  const { loading, error, products, pages, page } = useSelector(
+    (state) => state.productList
+  );
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success: deleteSuccess } = useSelector(
     (state) => state.productDelete
@@ -23,11 +24,11 @@ function ProductList() {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts(params.keyword, params.pageNumber));
+      dispatch(listProducts(keyword, pageNumber));
     } else {
       navigate("/login");
     }
-  }, [dispatch, userInfo, navigate, deleteSuccess, params]);
+  }, [dispatch, userInfo, navigate, deleteSuccess, keyword, pageNumber]);
 
   const [selectedProduct, setSelectedProduct] = useState("");
 
@@ -45,7 +46,7 @@ function ProductList() {
   };
 
   const reloadProductList = () => {
-    dispatch(listProducts("", params.pageNumber));
+    dispatch(listProducts("", pageNumber));
   };
 
   return (
@@ -69,7 +70,7 @@ function ProductList() {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">{error.data}</Message>
       ) : (
         <>
           <Table striped bordered hover responsive className="table-sm">
@@ -119,11 +120,7 @@ function ProductList() {
               ))}
             </tbody>
           </Table>
-          <Paginate
-            pages={pages}
-            page={page}
-            keyword={params.keyword ? params.keyword : ""}
-          />
+          <Paginate pages={pages} page={page} keyword={keyword || ""} />
           {products.length === 0 && (
             <Message variant="danger">Không tìm thấy kết quả phù hợp</Message>
           )}

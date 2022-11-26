@@ -15,19 +15,18 @@ function LoginScreen() {
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { loading, error, userInfo } = useSelector((state) => state.userLogin);
 
-  const errorMessage = error && error.response.data.message;
+  const errorMessage = error?.response?.data?.message;
 
   let location = useLocation();
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (userInfo && Object.keys(userInfo).length !== 0) {
+    if (userInfo && Object.keys(userInfo)?.length !== 0) {
       navigate(redirect === "/" ? "/" : "/" + redirect);
     }
-  }, [userInfo, redirect, navigate]);
+  }, [userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();

@@ -19,8 +19,7 @@ function ProfileScreen() {
 
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const { loading, error, user } = useSelector((state) => state.userDetails);
   const errorMessage = error && error.response?.data?.message;
 
   const userLogin = useSelector((state) => state.userLogin);

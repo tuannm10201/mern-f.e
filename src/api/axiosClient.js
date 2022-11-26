@@ -3,17 +3,57 @@ import queryString from "query-string";
 import apiConfig from "./apiConfig";
 import { logout } from "../actions/userActions";
 import store from "../store";
+import jwt_decode from "jwt-decode";
+import { USER_LOGIN_SUCCESS } from "../constants/userConstants";
 
 const axiosClient = axios.create({
   baseURL: apiConfig.baseUrl,
   headers: {
     "Content-Type": "application/json",
+    Accept: "*/*",
+    withCredentials: true,
   },
   paramsSerializer: (params) =>
     queryString.stringify({ ...params, api_key: apiConfig.apiKey }),
 });
 
-axiosClient.interceptors.request.use((config) => config);
+const refresh = async () => {
+  const { data } = await axios.get(apiConfig.baseUrl + "api/users/refresh", {
+    withCredentials: true,
+  });
+  return data?.accessToken;
+};
+
+axiosClient.interceptors.request.use(
+  async (config) => {
+    const { userInfo } = store.getState().userLogin;
+    const token = userInfo?.token;
+    if (!token) return config;
+    const decodedToken = jwt_decode(token);
+    const date = new Date();
+    if (decodedToken.exp < date.getTime() / 1000) {
+      const newToken = await refresh();
+      console.log(newToken);
+      const refreshUser = {
+        ...userInfo,
+        token: newToken,
+      };
+
+      store.dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: refreshUser,
+      });
+
+      localStorage.setItem("userInfo", JSON.stringify(refreshUser));
+
+      config.headers["Authorization"] = "Bearer " + newToken;
+    }
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
 
 axiosClient.interceptors.response.use(
   (response) => {

@@ -18,14 +18,13 @@ function ProductScreen() {
   const [qty, setQty] = useState(1);
   const navigate = useNavigate();
 
-  const params = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
 
-  const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const { loading, error, product } = useSelector(
+    (state) => state.productDetails
+  );
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
@@ -38,39 +37,38 @@ function ProductScreen() {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    dispatch(listProductDetails(params.id));
-  }, [dispatch, params.id]);
+    dispatch(listProductDetails(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (successProductReview) {
       setRating(5);
       setComment("");
-      dispatch(listProductDetails(params.id));
+      dispatch(listProductDetails(id));
     }
-    if (!product._id || product._id !== params.id) {
-      dispatch(listProductDetails(params.id));
+    if (!product._id || product._id !== id) {
+      dispatch(listProductDetails(id));
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
-  }, [dispatch, params, product, successProductReview]);
+  }, [dispatch, id, product, successProductReview]);
 
   const addToCartHandler = () => {
-    navigate(`/cart/${params.id}?qty=${qty}`);
+    navigate(`/cart/${id}?qty=${qty}`);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
-      productCreateReview(params.id, {
+      productCreateReview(id, {
         rating,
         comment,
       })
     );
   };
 
-  const isReviewed =
-    product.reviews &&
-    product.reviews.find((review) => review.user === userInfo._id);
-
+  const isReviewed = product.reviews?.find(
+    (review) => review.user === userInfo._id
+  );
   return (
     <>
       <Meta title={product.name} />
@@ -80,7 +78,7 @@ function ProductScreen() {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error.data.message}</Message>
+        <Message variant="danger">{error.data?.message}</Message>
       ) : (
         <>
           <Row>
@@ -159,7 +157,7 @@ function ProductScreen() {
                     </ListGroup.Item>
                   ))}
                 <ListGroup.Item>
-                  <h2>Gởi đánh giá của bạn</h2>
+                  <h2>Gửi đánh giá của bạn</h2>
                   {successProductReview && (
                     <Message variant="success">
                       Đánh giá đã được gửi thành công
@@ -200,7 +198,7 @@ function ProductScreen() {
                           type="submit"
                           variant="primary"
                         >
-                          Gởi đánh giá
+                          Gửi đánh giá
                         </Button>
                       </Form>
                     ) : (

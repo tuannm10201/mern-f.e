@@ -8,16 +8,17 @@ import { listTopRatedProducts } from "../actions/productActions";
 
 function ProductCarousel() {
   const dispatch = useDispatch();
-  const productTopRated = useSelector((state) => state.productTopRated);
-  const { loading, error, products } = productTopRated;
+  const { loading, error, products } = useSelector(
+    (state) => state.productTopRated
+  );
   useEffect(() => {
     dispatch(listTopRatedProducts());
-  }, [dispatch]);
+  }, []);
 
   return loading ? (
     <Loader />
   ) : error ? (
-    <Message variant="danger">{error}</Message>
+    <Message variant="danger">{error.data?.message}</Message>
   ) : (
     <Carousel pause="hover" className="bg-dark">
       {products &&

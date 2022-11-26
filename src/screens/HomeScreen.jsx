@@ -13,18 +13,15 @@ import ProductCarousel from "../components/ProductCarousel";
 
 function HomeScreen() {
   const dispatch = useDispatch();
-  const params = useParams();
+  const { keyword, pageNumber = 1 } = useParams();
   const location = useLocation();
-  const keyword = params.keyword;
   const category = location.search.split("=")[1];
-  let pageNumber = params.pageNumber || 1;
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products, pages, page } = productList;
-
+  const { loading, error, products, pages, page } = useSelector(
+    (state) => state.productList
+  );
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber, category));
-  }, [dispatch, keyword, category, pageNumber]);
-
+  }, [keyword, category, pageNumber]);
   return (
     <>
       <Meta />
@@ -40,14 +37,14 @@ function HomeScreen() {
       {loading ? (
         <Loader customStyle={{ marginBottom: "500px" }} />
       ) : error ? (
-        <Message variant="danger">{error.data.message}</Message>
+        <Message variant="danger">{error.data?.message}</Message>
       ) : (
         <>
-          {products.length === 0 && (
+          {products?.length === 0 && (
             <Message variant="danger">Không tìm thấy kết quả phù hợp</Message>
           )}
           <Row>
-            {products.map((product) => (
+            {products?.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
