@@ -15,6 +15,7 @@ import ProductList from "../screens/ProductList";
 import OrderListScreen from "../screens/OrderListScreen";
 import ProductNewScreen from "../screens/ProductNewScreen";
 import ProductEditScreen from "../screens/ProductEditScreen";
+import ReportScreen from "../screens/ReportScreen";
 
 function Routes() {
   return (
@@ -43,6 +44,7 @@ function Routes() {
       <Route path="/admin/users/:id/edit" element={<UserEditScreen />} />
       <Route path="/admin/products" element={<ProductList />} />
       <Route path="/admin/products/search/:keyword" element={<ProductList />} />
+      <Route path="/admin/report" element={<ReportScreen />} />
       <Route
         path="/admin/products/page/:pageNumber"
         element={<ProductList />}

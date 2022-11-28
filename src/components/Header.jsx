@@ -42,6 +42,9 @@ function Header() {
                   <LinkContainer to="/admin/orders">
                     <NavDropdown.Item>Đơn hàng</NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to="/admin/report">
+                    <NavDropdown.Item>Báo cáo</NavDropdown.Item>
+                  </LinkContainer>
                 </NavDropdown>
               )}
               {userInfo && Object.keys(userInfo).length !== 0 ? (

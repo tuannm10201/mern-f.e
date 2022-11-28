@@ -38,7 +38,7 @@ function ProductScreen() {
 
   useEffect(() => {
     dispatch(listProductDetails(id));
-  }, [dispatch, id]);
+  }, [id]);
 
   useEffect(() => {
     if (successProductReview) {
@@ -50,7 +50,7 @@ function ProductScreen() {
       dispatch(listProductDetails(id));
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
-  }, [dispatch, id, product, successProductReview]);
+  }, [id, product, successProductReview]);
 
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`);
@@ -67,7 +67,7 @@ function ProductScreen() {
   };
 
   const isReviewed = product.reviews?.find(
-    (review) => review.user === userInfo._id
+    (review) => review.user === userInfo?._id
   );
   return (
     <>

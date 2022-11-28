@@ -90,7 +90,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
-export const listAllOrders = () => async (dispatch, getState) => {
+export const listAllOrders = (dateRange) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST,
@@ -99,7 +99,7 @@ export const listAllOrders = () => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-    const data = await ordersApi.listAllOrders(userInfo.token);
+    const data = await ordersApi.listAllOrders(dateRange, userInfo.token);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,

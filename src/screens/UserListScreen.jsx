@@ -65,10 +65,10 @@ function UserListScreen() {
         <Message variant="danger">Không thể xóa tài khoản admin</Message>
       )}
       {deleteAdminCount > 1 && deleteAdminCount < 3 && (
-        <Message variant="danger">{`Đã bảo là không thể xóa tài khoản admin. Đừng có lì nha >.<`}</Message>
+        <Message variant="danger">Không được xóa Admin!!</Message>
       )}
       {deleteAdminCount >= 3 && deleteAdminCount < 4 && (
-        <Message variant="danger">{`Lì một lần nữa là out nha sếp :v`}</Message>
+        <Message variant="danger">Cảnh báo lần cuối: Không xóa Admin!!</Message>
       )}
       {deleteAdminCount >= 4 && dispatch(logout())}
       {loading ? (

@@ -7,9 +7,10 @@ const config = (token) => ({
   },
 });
 const productsApi = {
-  getAllProducts: (keyword, pageNumber, category) =>
+  getAllProducts: (keyword, pageNumber, category, token) =>
     axiosClient.get(
-      `/api/products?keyword=${keyword}&category=${category}&pageNumber=${pageNumber}`
+      `/api/products?keyword=${keyword}&category=${category}&pageNumber=${pageNumber}`,
+      config(token)
     ),
   getProduct: (id) => axiosClient.get("/api/products/" + id),
   getTopRatedProducts: () => axiosClient.get("/api/products/topRated"),

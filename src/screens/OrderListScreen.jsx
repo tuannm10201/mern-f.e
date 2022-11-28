@@ -11,8 +11,7 @@ import { deleteOrderById, listAllOrders } from "../actions/orderActions";
 function OrderListScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const orderList = useSelector((state) => state.orderList);
-  const { loading, error, orders } = orderList;
+  const { loading, error, orders } = useSelector((state) => state.orderList);
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success: deleteSuccess } = useSelector((state) => state.orderDelete);
 
@@ -22,7 +21,7 @@ function OrderListScreen() {
     } else {
       navigate("/login");
     }
-  }, [dispatch, userInfo, navigate, deleteSuccess]);
+  }, [userInfo, deleteSuccess]);
 
   const [selectedOrder, setSelectedOrder] = useState("");
 

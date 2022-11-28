@@ -24,14 +24,19 @@ import {
 import productsApi from "../api/productsApi";
 export const listProducts =
   (keyword = "", pageNumber = "", category = "") =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
+
+      const { userLogin } = getState();
+
+      const token = userLogin?.userInfo?.token;
 
       const data = await productsApi.getAllProducts(
         keyword,
         pageNumber,
-        category
+        category,
+        token
       );
 
       dispatch({
