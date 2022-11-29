@@ -10,6 +10,7 @@ import Paginate from "../components/Paginate";
 import Meta from "../components/Meta";
 import CategoryFilter from "../components/CategoryFilter";
 import ProductCarousel from "../components/ProductCarousel";
+import RecommendProducts from "../components/RecommendProducts";
 
 function HomeScreen() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function HomeScreen() {
   const { loading, error, products, pages, page } = useSelector(
     (state) => state.productList
   );
+  const { userInfo } = useSelector((state) => state.userLogin);
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber, category));
   }, [keyword, category, pageNumber]);
@@ -32,7 +34,11 @@ function HomeScreen() {
       ) : (
         <ProductCarousel />
       )}
-      <h1>Danh sách sản phẩm</h1>
+      {userInfo?.token && (
+        <RecommendProducts token={userInfo.token} searchs={userInfo.search} />
+      )}
+
+      <h1 className="mt-3">Danh sách sản phẩm</h1>
       <CategoryFilter />
       {loading ? (
         <Loader customStyle={{ marginBottom: "500px" }} />

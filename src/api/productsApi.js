@@ -14,6 +14,8 @@ const productsApi = {
     ),
   getProduct: (id) => axiosClient.get("/api/products/" + id),
   getTopRatedProducts: () => axiosClient.get("/api/products/topRated"),
+  getRecommendProducts: (token) =>
+    axiosClient.get("/api/products/recommend", config(token)),
   deleteProduct: (id, token) =>
     axiosClient.delete(`/api/products/${id}/delete`, config(token)),
   addProduct: (product, token) =>

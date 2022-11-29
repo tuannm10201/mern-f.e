@@ -20,6 +20,9 @@ import {
   PRODUCT_TOPRATED_REQUEST,
   PRODUCT_TOPRATED_SUCCESS,
   PRODUCT_TOPRATED_FAIL,
+  PRODUCT_RECOMMEND_REQUEST,
+  PRODUCT_RECOMMEND_SUCCESS,
+  PRODUCT_RECOMMEND_FAIL,
 } from "../constants/productConstants";
 import productsApi from "../api/productsApi";
 export const listProducts =
@@ -63,6 +66,23 @@ export const listTopRatedProducts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_TOPRATED_FAIL,
+      payload: error.response,
+    });
+  }
+};
+
+export const listRecommendProducts = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_RECOMMEND_REQUEST });
+
+    const data = await productsApi.getRecommendProducts(token);
+    dispatch({
+      type: PRODUCT_RECOMMEND_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_RECOMMEND_FAIL,
       payload: error.response,
     });
   }

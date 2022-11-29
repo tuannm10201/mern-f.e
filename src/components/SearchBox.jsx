@@ -1,14 +1,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 function SearchBox({ isAdmin }) {
+  const { userInfo } = useSelector((state) => state.userLogin);
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (userInfo?.search) {
+      const userStorage = JSON.parse(localStorage.getItem("userInfo"));
 
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({
+          ...userStorage,
+          search: [...new Set([keyword, ...userStorage.search].slice(0, 8))],
+        })
+      );
+    }
     if (isAdmin) {
       if (keyword.trim()) {
         navigate(`/admin/products/search/${keyword}`);
