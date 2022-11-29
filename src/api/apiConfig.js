@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseUrl: `http://localhost:4000/`,
+  baseUrl: `https://be-ptit-shop.cyclic.app`,
   apiKey: process.env.API_KEY,
 };
 
