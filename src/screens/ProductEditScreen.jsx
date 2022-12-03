@@ -41,7 +41,7 @@ function ProductEditScreen() {
     setCountInStock(product.countInStock);
   }, [product]);
 
-  const errorMessage = error.response?.data?.message;
+  const errorMessage = error?.response?.data?.message;
 
   useEffect(() => {
     dispatch(listProductDetails(id));
