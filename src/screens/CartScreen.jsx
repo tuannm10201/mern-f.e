@@ -15,6 +15,7 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 import CheckoutStep from "../components/CheckoutStep";
 import Price from "../components/Price";
 import Meta from "../components/Meta";
+import { BE } from "../constants/userConstants";
 
 function CartScreen() {
   const { id: productId } = useParams();
@@ -65,7 +66,7 @@ function CartScreen() {
                   <Row className="align-items-center">
                     <Col md={2}>
                       <Image
-                        src={"http://localhost:4000" + item.image}
+                        src={BE + item.image}
                         alt={item.name}
                         fluid
                         rounded

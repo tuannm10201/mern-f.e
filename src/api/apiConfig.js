@@ -1,5 +1,7 @@
+import { BE } from "../constants/userConstants";
+
 const apiConfig = {
-  baseUrl: `http://localhost:4000`, //`https://be-ptit-shop.cyclic.app`
+  baseUrl: BE,
   apiKey: process.env.API_KEY,
 };
 

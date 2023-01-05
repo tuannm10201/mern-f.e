@@ -10,6 +10,7 @@ import Paginate from "../components/Paginate";
 import SearchBox from "../components/SearchBox";
 import { listProducts, deleteProductById } from "../actions/productActions";
 import { CATEGORIES } from "../constants/productConstants";
+import { BE } from "../constants/userConstants";
 
 function ProductList() {
   const { keyword, pageNumber } = useParams();
@@ -90,7 +91,7 @@ function ProductList() {
                 <tr key={product._id}>
                   <td>
                     <Image
-                      src={"http://localhost:4000" + product.image}
+                      src={BE + product.image}
                       alt={product.name}
                       fluid
                       rounded

@@ -8,6 +8,7 @@ import { FREE_SHIP_PRICE, SHIPPING_PRICE } from "../constants/cartConstants";
 import { createOrder, resetCreatedOrder } from "../actions/orderActions";
 import { resetCart } from "../actions/cartActions";
 import Price from "../components/Price";
+import { BE } from "../constants/userConstants";
 
 const PAYMENT_METHOD = {
   cod: "Thanh toán khi nhận hàng",
@@ -88,7 +89,7 @@ function PlaceOrderScreen() {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={"http://localhost:4000" + item.image}
+                            src={BE + item.image}
                             alt={item.name}
                             fluid
                             rounded

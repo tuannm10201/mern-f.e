@@ -13,6 +13,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Meta from "../components/Meta";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
+import { BE } from "../constants/userConstants";
 
 function ProductScreen() {
   const [qty, setQty] = useState(1);
@@ -83,11 +84,7 @@ function ProductScreen() {
         <>
           <Row>
             <Col md={6}>
-              <Image
-                src={"http://localhost:4000" + product.image}
-                alt={product.name}
-                fluid
-              />
+              <Image src={BE + product.image} alt={product.name} fluid />
             </Col>
             <Col md={6}>
               <ListGroup variant="flush">

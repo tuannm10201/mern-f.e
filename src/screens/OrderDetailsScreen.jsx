@@ -16,6 +16,7 @@ import { getOrderDetails } from "../actions/orderActions";
 import { PAYMENT_METHOD } from "../constants/cartConstants";
 import ordersApi from "../api/ordersApi";
 import Price from "../components/Price";
+import { BE } from "../constants/userConstants";
 
 function OrderDetailsScreen() {
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ function OrderDetailsScreen() {
                     <Row>
                       <Col md={1}>
                         <Image
-                          src={"http://localhost:4000" + item.image}
+                          src={BE + item.image}
                           alt={item.name}
                           fluid
                           rounded

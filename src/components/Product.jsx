@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import Rating from "./Rating";
 import Price from "./Price";
+import { BE } from "../constants/userConstants";
 
 function Product({ product }) {
   return (
     <Card className="my-3 p-3 roundedc product-detail">
       <Link to={`/products/${product._id}`}>
         <Card.Img
-          src={"http://localhost:4000" + product.image}
+          src={BE + product.image}
+          alt={product.name}
           variant="top"
           style={{ height: 272, width: 272 }}
         />
