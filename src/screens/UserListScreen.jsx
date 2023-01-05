@@ -1,17 +1,76 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { Row, Col, Table, Button, Modal } from "react-bootstrap";
+import { Row, Col, Table, Button, Modal, Badge } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers, deleteUser, logout } from "../actions/userActions";
+import ChatAdmin from "../components/ChatAdmin";
+import { io } from "socket.io-client";
 
+let isGetUserOnline = false;
 function UserListScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, error, users } = useSelector((state) => state.userList);
   const { userInfo } = useSelector((state) => state.userLogin);
+  const socket = useMemo(
+    () => io("ws://localhost:9000", { auth: { id: userInfo?._id } }),
+    [userInfo?._id]
+  );
+  const [usersOnline, setUsersOnline] = useState([]);
+  const [userUnread, setUserUnread] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const [chatUserSelect, setChatUserSelect] = useState(null);
+  const handleSelectChatUser = (user) => {
+    if (user._id == userInfo._id) return;
+    setOpen(true);
+    setChatUserSelect(user);
+    setUserUnread((prev) => prev.filter((userId) => userId != user._id));
+  };
+
+  useEffect(() => {
+    socket.emit("adminCheck");
+    const handleGetUserOnline = (users) => {
+      setUsersOnline(users?.map((user) => user.userId));
+    };
+    socket.on("getUsersOnline", handleGetUserOnline);
+
+    socket.once("showUserUnread", (payload) => {
+      setUserUnread((prev) => [...new Set([...prev, ...payload])]);
+    });
+
+    return () => {
+      socket.off("getUsersOnline", handleGetUserOnline);
+    };
+  }, []);
+
+  useEffect(() => {
+    const addUserUnread = (userId) => {
+      if (!userUnread.includes(userId) && userId != chatUserSelect?._id)
+        setUserUnread((prev) => [...new Set([...prev, userId])]);
+    };
+    socket.on("checkUnreadMsg", addUserUnread);
+
+    return () => {
+      socket.off("checkUnreadMsg", addUserUnread);
+    };
+  }, [chatUserSelect?._id]);
+
+  useEffect(() => {
+    if (users?.length && !isGetUserOnline) {
+      isGetUserOnline = true;
+      const userWasOnline = users.filter((user) => user.isOnline);
+      if (userWasOnline.length)
+        setUsersOnline(userWasOnline.map((user) => user._id));
+    }
+    return () => {
+      isGetUserOnline = false;
+    };
+  }, [JSON.stringify(users)]);
+
   const { success: deleteSuccess } = useSelector((state) => state.userDelete);
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -79,20 +138,44 @@ function UserListScreen() {
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Tên</th>
               <th>Email</th>
               <th>Vai trò</th>
+              <th>Trò chuyện</th>
               <th>Chỉnh sửa</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
+                <td>
+                  {user.name}
+                  {"  "}
+                  <span
+                    className={`dot ${
+                      user.isAdmin || usersOnline.includes(user._id)
+                        ? "active"
+                        : "unactive"
+                    }`}
+                  ></span>
+                </td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
+                <td
+                  className="cursor-pointer"
+                  onClick={() => handleSelectChatUser(user)}
+                >
+                  {!user.isAdmin && (
+                    <Badge
+                      pill
+                      bg={userUnread.includes(user._id) ? "warning" : "primary"}
+                    >
+                      {userUnread.includes(user._id)
+                        ? "Có tin  nhắn đến"
+                        : "Tin nhắn rỗng"}
+                    </Badge>
+                  )}
+                </td>
                 <td>
                   <LinkContainer to={`/admin/users/${user._id}/edit`}>
                     <Button variant="light" className="btn-sm">
@@ -137,6 +220,15 @@ function UserListScreen() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {chatUserSelect && (
+        <ChatAdmin
+          key={chatUserSelect?._id}
+          open={open}
+          setOpen={setOpen}
+          user={chatUserSelect}
+        />
+      )}
     </>
   );
 }

@@ -10,15 +10,14 @@ const axiosClient = axios.create({
   baseURL: apiConfig.baseUrl,
   headers: {
     "Content-Type": "application/json",
-    Accept: "*/*",
-    withCredentials: true,
   },
+  withCredentials: true,
   paramsSerializer: (params) =>
     queryString.stringify({ ...params, api_key: apiConfig.apiKey }),
 });
 
 const refresh = async () => {
-  const { data } = await axios.get(apiConfig.baseUrl + "api/users/refresh", {
+  const { data } = await axios.get(apiConfig.baseUrl + "/api/users/refresh", {
     withCredentials: true,
   });
   return data?.accessToken;
@@ -33,7 +32,6 @@ axiosClient.interceptors.request.use(
     const date = new Date();
     if (decodedToken.exp < date.getTime() / 1000) {
       const newToken = await refresh();
-      console.log(newToken);
       const refreshUser = {
         ...userInfo,
         token: newToken,

@@ -83,7 +83,11 @@ function ProductScreen() {
         <>
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image
+                src={"http://localhost:4000" + product.image}
+                alt={product.name}
+                fluid
+              />
             </Col>
             <Col md={6}>
               <ListGroup variant="flush">
@@ -129,7 +133,7 @@ function ProductScreen() {
                   <Button
                     className="mt-3"
                     type="button"
-                    disabled={product.countInStock === 0 || qty === 0}
+                    disabled={product.countInStock === 0 || !qty}
                     onClick={addToCartHandler}
                   >
                     Thêm vào giỏ hàng

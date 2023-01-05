@@ -64,7 +64,12 @@ function CartScreen() {
                 <ListGroup.Item key={item.product}>
                   <Row className="align-items-center">
                     <Col md={2}>
-                      <Image src={item.image} alt={item.name} fluid rounded />
+                      <Image
+                        src={"http://localhost:4000" + item.image}
+                        alt={item.name}
+                        fluid
+                        rounded
+                      />
                     </Col>
                     <Col md={4}>
                       <Link to={`/products/${item.product}`}>
@@ -124,7 +129,12 @@ function CartScreen() {
                 <Button
                   type="button"
                   className="btn-block"
-                  disabled={cartItems.length === 0}
+                  disabled={
+                    cartItems.length === 0 ||
+                    cartItems.some(
+                      (item) => !item.qty || item.qty > item.countInStock
+                    )
+                  }
                   onClick={checkoutHandler}
                 >
                   Mua hàng

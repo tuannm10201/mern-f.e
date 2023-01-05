@@ -8,16 +8,15 @@ const Paginate = ({ pages, page, keyword = "" }) => {
   const category = location.search.split("=")[1];
   const { userInfo } = useSelector((state) => state.userLogin);
   const redirectUrl = (x) => {
-    if (userInfo?.isAdmin) {
+    if (userInfo?.isAdmin && location?.pathname == "/admin/products") {
       if (keyword) return `/admin/products/search/${keyword}/page/${x + 1}`;
       return `/admin/products/page/${x + 1}`;
-    } else {
-      if (keyword)
-        return `/search/${keyword}/page/${x + 1}${
-          category && `?category=${category}`
-        }`;
-      return `/page/${x + 1}${category ? `?category=${category}` : ""}`;
     }
+    if (keyword)
+      return `/search/${keyword}/page/${x + 1}${
+        category && `?category=${category}`
+      }`;
+    return `/page/${x + 1}${category ? `?category=${category}` : ""}`;
   };
 
   return (

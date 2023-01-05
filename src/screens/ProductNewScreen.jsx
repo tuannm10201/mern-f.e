@@ -6,7 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { addProduct } from "../actions/productActions";
-import { PRODUCT_ADD_RESET } from "../constants/productConstants";
+import { PRODUCT_ADD_RESET, CATEGORIES } from "../constants/productConstants";
 import uploadImage from "../api/uploadApi";
 
 function NewProductScreen() {
@@ -121,13 +121,16 @@ function NewProductScreen() {
 
           <Form.Group controlId="category">
             <Form.Label>Phân loại</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Nhập phân loại"
+            <Form.Select
               value={category}
-              required
               onChange={(e) => setCategory(e.target.value)}
-            />
+            >
+              {CATEGORIES.slice(1).map((cat) => (
+                <option key={cat.value} value={cat.value}>
+                  {cat.text}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group controlId="brand">
@@ -142,7 +145,7 @@ function NewProductScreen() {
           </Form.Group>
 
           <Form.Group controlId="price">
-            <Form.Label>{`Giá (vnđ)`}</Form.Label>
+            <Form.Label>Giá (vnđ)</Form.Label>
             <Form.Control
               type="number"
               placeholder="Nhập giá sản phẩm"

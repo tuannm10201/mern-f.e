@@ -60,7 +60,7 @@ function PaymentScreen() {
           </Col>
         </Form.Group>
 
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" disabled={!paymentMethod}>
           Tiếp tục
         </Button>
       </Form>

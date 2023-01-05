@@ -67,6 +67,10 @@ function ProfileScreen() {
     dispatch(listMyOrders());
   };
 
+  const f = new Intl.DateTimeFormat("vi-vn", {
+    dateStyle: "full",
+  });
+
   return (
     <Row>
       <Col md={3}>
@@ -176,12 +180,16 @@ function ProfileScreen() {
                     {order.paymentMethod === "cod"
                       ? "Thanh toán khi nhận hàng"
                       : order.isPaid
-                      ? order.paidAt
+                      ? f.format(new Date(order.paidAt))
                       : order.isSentPayment
                       ? "Đã chuyển khoản"
                       : "Chưa thanh toán"}
                   </td>
-                  <td>{order.isDelivered ? order.deliveredAt : "Đang giao"}</td>
+                  <td>
+                    {order.isDelivered
+                      ? f.format(new Date(order.deliveredAt))
+                      : "Đang giao"}
+                  </td>
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
                       <Button variant="light" className="btn-sm">

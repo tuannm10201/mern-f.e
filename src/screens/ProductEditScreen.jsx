@@ -6,7 +6,10 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { listProductDetails, updateProduct } from "../actions/productActions";
-import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
+import {
+  PRODUCT_UPDATE_RESET,
+  CATEGORIES,
+} from "../constants/productConstants";
 import uploadImage from "../api/uploadApi";
 
 function ProductEditScreen() {
@@ -16,7 +19,7 @@ function ProductEditScreen() {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("phone");
   const [price, setPrice] = useState(10000);
   const [countInStock, setCountInStock] = useState(0);
 
@@ -51,7 +54,7 @@ function ProductEditScreen() {
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file);
     setUploading(true);
     setUploadError(false);
 
@@ -136,13 +139,16 @@ function ProductEditScreen() {
 
           <Form.Group controlId="category">
             <Form.Label>Phân loại</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Nhập phân loại"
+            <Form.Select
               value={category}
-              required
               onChange={(e) => setCategory(e.target.value)}
-            />
+            >
+              {CATEGORIES.slice(1).map((cat) => (
+                <option key={cat.value} value={cat.value}>
+                  {cat.text}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group controlId="brand">

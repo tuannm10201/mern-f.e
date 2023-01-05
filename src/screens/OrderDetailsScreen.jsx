@@ -50,6 +50,10 @@ function OrderDetailsScreen() {
     dispatch(getOrderDetails(orderId));
   };
 
+  const f = new Intl.DateTimeFormat("vi-vn", {
+    dateStyle: "full",
+  });
+
   return loading ? (
     <Loader />
   ) : error ? (
@@ -73,7 +77,7 @@ function OrderDetailsScreen() {
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Đã giao vào lúc {order.deliveredAt}
+                  Đã giao vào: {f.format(new Date(order.deliveredAt))}
                 </Message>
               ) : (
                 <Message variant="warning">Đang chuẩn bị hàng</Message>
@@ -88,7 +92,7 @@ function OrderDetailsScreen() {
               </p>
               {order.isPaid ? (
                 <Message variant="success">
-                  Thanh toán vào lúc {order.paidAt}
+                  Thanh toán vào: {f.format(new Date(order.paidAt))}
                 </Message>
               ) : order.isSentPayment ? (
                 <Message variant="warning">
@@ -106,7 +110,12 @@ function OrderDetailsScreen() {
                   <ListGroup.Item key={index}>
                     <Row>
                       <Col md={1}>
-                        <Image src={item.image} alt={item.name} fluid rounded />
+                        <Image
+                          src={"http://localhost:4000" + item.image}
+                          alt={item.name}
+                          fluid
+                          rounded
+                        />
                       </Col>
                       <Col>
                         <Link to={`/products/${item.product}`}>
@@ -159,7 +168,8 @@ function OrderDetailsScreen() {
                 disabled={
                   (order && order.isPaid) ||
                   (order && order.isSentPayment) ||
-                  order.paymentMethod === "cod"
+                  order.paymentMethod === "cod" ||
+                  userInfo.isAdmin
                 }
               >
                 {(order && order.isPaid && "Đã thanh toán") ||

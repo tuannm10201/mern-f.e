@@ -26,6 +26,17 @@ const usersApi = {
   listAllUsers: (token) => axiosClient.get(`/api/users/`, config(token)),
   deleteUser: (id, token) =>
     axiosClient.delete(`/api/users/${id}/delete`, config(token)),
+  createChat: (payload, token, id) =>
+    axiosClient.post(
+      id ? `/api/users/admin/chat/${id}` : "/api/users/chat",
+      payload,
+      config(token)
+    ),
+  getChat: (token, id) =>
+    axiosClient.get(
+      id ? `/api/users/admin/chat/${id}` : "/api/users/chat",
+      config(token)
+    ),
 };
 
 export default usersApi;

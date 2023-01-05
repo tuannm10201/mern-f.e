@@ -32,3 +32,38 @@ export const PRODUCT_TOPRATED_FAIL = "PRODUCT_TOPRATED_FAIL";
 export const PRODUCT_RECOMMEND_REQUEST = "PRODUCT_RECOMMEND_REQUEST";
 export const PRODUCT_RECOMMEND_SUCCESS = "PRODUCT_RECOMMEND_SUCCESS";
 export const PRODUCT_RECOMMEND_FAIL = "PRODUCT_RECOMMEND_FAIL";
+
+export const CATEGORIES = [
+  {
+    text: "Tất cả",
+    value: "all",
+  },
+  {
+    text: "Điện thoại",
+    value: "phone",
+  },
+  {
+    text: "Tivi",
+    value: "tivi",
+  },
+  {
+    text: "Laptop",
+    value: "laptop",
+  },
+  {
+    text: "Máy tính bảng",
+    value: "tablet",
+  },
+  {
+    text: "Máy tính",
+    value: "pc",
+  },
+  {
+    text: "Phụ kiện",
+    value: "accessories",
+  },
+  {
+    text: "Khác",
+    value: "other",
+  },
+];

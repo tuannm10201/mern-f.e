@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-
-const categories = ["all", "Tivi", "Tablet", "Mobile", "Laptop"];
+import { CATEGORIES } from "../constants/productConstants";
 
 function CategoryFilter() {
   const navigate = useNavigate();
@@ -11,15 +10,13 @@ function CategoryFilter() {
 
   return (
     <>
-      {categories.map((category) => (
+      {CATEGORIES.slice(0, -1).map((cat) => (
         <Button
-          key={category}
+          key={cat.value}
           variant="outline-secondary"
-          onClick={() => filterHandler(category)}
+          onClick={() => filterHandler(cat.value)}
         >
-          {(category === "" && "Tất cả") ||
-            (category === "Mobile" && "Điện thoại") ||
-            category}
+          {cat.text}
         </Button>
       ))}
     </>

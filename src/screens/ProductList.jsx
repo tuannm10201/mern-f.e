@@ -9,6 +9,7 @@ import Price from "../components/Price";
 import Paginate from "../components/Paginate";
 import SearchBox from "../components/SearchBox";
 import { listProducts, deleteProductById } from "../actions/productActions";
+import { CATEGORIES } from "../constants/productConstants";
 
 function ProductList() {
   const { keyword, pageNumber } = useParams();
@@ -89,7 +90,7 @@ function ProductList() {
                 <tr key={product._id}>
                   <td>
                     <Image
-                      src={product.image}
+                      src={"http://localhost:4000" + product.image}
                       alt={product.name}
                       fluid
                       rounded
@@ -97,7 +98,10 @@ function ProductList() {
                     />
                   </td>
                   <td>{product.name}</td>
-                  <td>{product.category}</td>
+                  <td>
+                    {CATEGORIES.find((cat) => cat.value == product.category)
+                      ?.text || "Khác"}
+                  </td>
                   <td>{product.brand}</td>
                   <td>
                     <Price>{product.price}</Price>

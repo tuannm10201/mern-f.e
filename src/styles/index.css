@@ -13,7 +13,7 @@ code {
     monospace;
 }
 
-main {
+main:not(.msger-chat) {
   min-height: 80vh;
 }
 
@@ -112,4 +112,27 @@ button.btn + .btn {
   border-radius: 0.25rem;
   text-align: center;
   cursor: pointer;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.active {
+  background-color: #31a24c;
+}
+
+.dot.unactive {
+  background-color: #808080;
+}
+
+table > thead > tr > th {
+  white-space: nowrap;
 }
