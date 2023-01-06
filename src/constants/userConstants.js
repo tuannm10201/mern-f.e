@@ -32,4 +32,4 @@ export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST";
 export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS";
 export const USER_DELETE_FAIL = "USER_DELETE_FAIL";
 
-export const BE = "https://be-ptit-shop.cyclic.app"; // "http://localhost:4000"
+export const BE = "https://api-shop-ptit.onrender.com"; // "http://localhost:4000"
