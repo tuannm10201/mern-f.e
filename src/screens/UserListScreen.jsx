@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import { listUsers, deleteUser, logout } from "../actions/userActions";
 import ChatAdmin from "../components/ChatAdmin";
 import { io } from "socket.io-client";
+import { BE } from "../constants/userConstants";
 
 let isGetUserOnline = false;
 function UserListScreen() {
@@ -16,7 +17,7 @@ function UserListScreen() {
   const { loading, error, users } = useSelector((state) => state.userList);
   const { userInfo } = useSelector((state) => state.userLogin);
   const socket = useMemo(
-    () => io("ws://localhost:9000", { auth: { id: userInfo?._id } }),
+    () => io(BE, { auth: { id: userInfo?._id } }),
     [userInfo?._id]
   );
   const [usersOnline, setUsersOnline] = useState([]);

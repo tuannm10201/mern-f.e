@@ -3,14 +3,12 @@ import { Button } from "react-bootstrap";
 import { io } from "socket.io-client";
 import usersApi from "../api/usersApi";
 import Loader from "./Loader";
+import { BE } from "../constants/userConstants";
 
 const ADMIN_ID = "6372572b9c3d66fe0b28a2dc";
 
 export default function Chat({ user }) {
-  const socket = useMemo(
-    () => io("ws://localhost:9000", { auth: { id: user._id } }),
-    [user._id]
-  );
+  const socket = useMemo(() => io(BE, { auth: { id: user._id } }), [user._id]);
 
   const now = new Date();
   const f = new Intl.DateTimeFormat("vi-vn", {

@@ -3,14 +3,12 @@ import { io } from "socket.io-client";
 import usersApi from "../api/usersApi";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
+import { BE } from "../constants/userConstants";
 
 export default function Chat({ user, open, setOpen }) {
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  const socket = useMemo(
-    () => io("ws://localhost:9000", { auth: { id: user._id } }),
-    [user._id]
-  );
+  const socket = useMemo(() => io(BE, { auth: { id: user._id } }), [user._id]);
 
   const now = new Date();
   const f = new Intl.DateTimeFormat("vi-vn", {
