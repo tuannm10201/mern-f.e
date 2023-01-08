@@ -161,6 +161,7 @@ function NewProductScreen() {
             <Form.Control
               type="number"
               placeholder="Nhập số lương"
+              min={0}
               value={countInStock}
               required
               onChange={(e) => setCountInStock(e.target.value)}

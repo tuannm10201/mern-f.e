@@ -178,6 +178,7 @@ function ProductEditScreen() {
             <Form.Label>Số lượng</Form.Label>
             <Form.Control
               type="number"
+              min={0}
               placeholder="Nhập số lương"
               value={countInStock}
               required
