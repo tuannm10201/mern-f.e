@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 function CheckoutStep({ step }) {
   const location = useLocation();
-
+console.log('hihi');
   return (
     <Nav className="justify-content-center mb-4">
       <Nav.Item className={location.pathname === "/cart" ? "active" : ""}>
