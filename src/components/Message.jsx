@@ -4,6 +4,7 @@ function Message({ className, variant = "info", children }) {
   return (
     <Alert variant={variant} className={className}>
       {children}
+      test hihi
     </Alert>
   );
 }
